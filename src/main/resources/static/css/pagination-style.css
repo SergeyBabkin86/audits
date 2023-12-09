@@ -1,0 +1,36 @@
+a:hover {
+    cursor: pointer;
+}
+
+#pagination {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    flex-direction: column;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+ul li {
+    color: black;
+    display: flex;
+}
+ul li a {
+    padding: 0.16em 10px;
+    border: 1px solid #d3d2d8;
+    border-right: 0;
+}
+ul li.active a {
+    background-color: #e8ecee;
+}
+ul li:first-child a {
+    border-radius: 3px 0 0 3px;
+}
+ul li:last-child a {
+    border-radius: 0 3px 3px 0;
+    border-right: 1px solid #d3d2d8;
+}
