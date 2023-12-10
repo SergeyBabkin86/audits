@@ -5,6 +5,7 @@ import lombok.*;
 import org.example.finding.model.Finding;
 import org.example.report.model.enums.ReportForm;
 import org.example.report.model.enums.ReportSchedule;
+import org.example.report.model.enums.ReportStatus;
 import org.example.report.model.enums.ReportType;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,7 +30,8 @@ public class Report {
     private String number;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ReportStatus status;
 
     @Column(name = "organisation")
     private String organisation;

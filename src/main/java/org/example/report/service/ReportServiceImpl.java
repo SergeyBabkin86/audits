@@ -1,7 +1,9 @@
 package org.example.report.service;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
 import lombok.var;
+import org.example.report.model.QReport;
 import org.example.report.model.Report;
 import org.example.report.model.ReportMapper;
 import org.example.report.model.ReportMapperImpl;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static java.util.Optional.ofNullable;
 import static org.example.util.Checkers.checkReportExists;
@@ -35,7 +38,7 @@ public class ReportServiceImpl implements ReportService {
         var internalNumber = generateInternalNumber(reportNewDto.getAuditedBy(),
                 reportNewDto.getEndDate(),
                 reportNewDto.getScope());
-        report.setStatus(ReportStatus.OPEN.toString());
+        report.setStatus(ReportStatus.OPEN);
         report.setNumber(internalNumber);
         return reportMapper.toReportFullDto(reportRepository.save(report));
     }
@@ -76,8 +79,9 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public Page<ReportShortDto> getReports(String keyword, GetReportRequest reportRequest, Pageable pageRequest) {
         Page<Report> reports;
+        var finalCondition = getFinalConditions(reportRequest);
         if (keyword == null || keyword.isEmpty()) {
-            reports = reportRepository.findAll(pageRequest);
+            reports = reportRepository.findAll(finalCondition, pageRequest);
         } else {
             reports = reportRepository.search(keyword, pageRequest);
         }
@@ -88,6 +92,29 @@ public class ReportServiceImpl implements ReportService {
     public void deleteById(int id) {
         checkReportExists(id, reportRepository);
         reportRepository.deleteById(id);
+    }
+
+    private BooleanExpression getFinalConditions(GetReportRequest reportRequest) {
+        var report = QReport.report;
+        var conditions = new ArrayList<BooleanExpression>();
+
+        if (reportRequest.getReportStatus() != null) {
+            conditions.add(report.status.eq(reportRequest.getReportStatus()));
+        }
+
+        if (reportRequest.getRangeStart() == null && reportRequest.getRangeEnd() == null) {
+            conditions.add(report.endDate.before(LocalDate.now()));
+        } else {
+            if (reportRequest.getRangeStart() != null) {
+                conditions.add(report.endDate.after(reportRequest.getRangeStart()));
+            }
+            if (reportRequest.getRangeEnd() != null) {
+                conditions.add(report.endDate.before(reportRequest.getRangeEnd()));
+            }
+        }
+        return conditions.stream()
+                .reduce(BooleanExpression::and)
+                .get();
     }
 
     private String generateInternalNumber(String auditedBy, LocalDate date, String scope) {

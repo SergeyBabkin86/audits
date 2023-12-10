@@ -1,7 +1,12 @@
-let sortingPara;
-let order;
+let status = "OPEN";
+let rangeStart;
+let rangeEnd;
+let sortProperties;
+let direction;
 let size;
+
 let prevCell;
+
 
 function getReports(page) {
     const keyword = document.getElementById('keyword').value;
@@ -10,18 +15,21 @@ function getReports(page) {
         type: 'GET',
         data: {
             keyword: keyword,
+            status: status,
+            rangeStart: rangeStart,
+            rangeEnd: rangeEnd,
             page: page,
             size: size,
-            sort: sortingPara,
-            order: order
+            sortProperties: sortProperties,
+            direction: direction
         },
         success: function (response) {
             createTable(response);
             $('pagination').empty();
             createPaginationGet(response);
         },
-        error: function (e) {
-            console.log("ERROR: ", e);
+        error: function (err) {
+            alert(err);
         }
     });
 }
@@ -170,9 +178,22 @@ $(document).ready(function () {
             })
         }
     });
+    document.getElementById("sel-status").addEventListener("change", function () {
+        status = this.value;
+    });
+
+    document.getElementById("date-filter-from").addEventListener("change", function () {
+        rangeStart = this.value;
+    });
+
+    document.getElementById("date-filter-to").addEventListener("change", function () {
+        rangeEnd = this.value;
+    });
+    document.getElementById("sel-size").addEventListener("change", function () {
+        size = this.value;
+    });
 
     $('#btn-fltr-apply').click(function () {
-        size = document.getElementById('sel-size').value;
         $('#filterDialog').modal('hide');
         getReports(0);
     });
@@ -186,16 +207,16 @@ $(document).ready(function () {
             $(prevCell).removeClass();
             prevCell = currentCell;
         }
-        if (sortingPara === undefined) {
-            sortingPara = currentCell.attr('data-sort');
-            order = -1;
-        } else if (currentCell.attr('data-sort') === sortingPara && order === 1) {
-            order = -1;
-        } else if (currentCell.attr('data-sort') === sortingPara && order === -1) {
-            order = 1;
+        if (sortProperties === undefined) {
+            sortProperties = currentCell.attr('data-sort');
+            direction = -1;
+        } else if (currentCell.attr('data-sort') === sortProperties && direction === 1) {
+            direction = -1;
+        } else if (currentCell.attr('data-sort') === sortProperties && direction === -1) {
+            direction = 1;
         } else {
-            sortingPara = currentCell.attr('data-sort');
-            order = -1;
+            sortProperties = currentCell.attr('data-sort');
+            direction = -1;
         }
         if ($(this).hasClass('desc') || $(this).hasClass('asc')) {
             $(this).toggleClass('asc desc');

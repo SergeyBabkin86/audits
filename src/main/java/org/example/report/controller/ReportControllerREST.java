@@ -23,17 +23,19 @@ public class ReportControllerREST {
 
     @GetMapping()
     public Page<ReportShortDto> findAll(@RequestParam(required = false) String keyword,
-                                        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                                        @RequestParam String status,
+                                        @RequestParam(required = false)
+                                        @DateTimeFormat(pattern = "yyyy-MM-dd")
                                         LocalDate rangeStart,
                                         @RequestParam(required = false)
-                                        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+                                        @DateTimeFormat(pattern = "yyyy-MM-dd")
                                         LocalDate rangeEnd,
-                                        @RequestParam(defaultValue = "0") int page,
-                                        @RequestParam(defaultValue = "5") int size,
                                         @RequestParam(defaultValue = "endDate") String sortProperties,
-                                        @RequestParam(defaultValue = "-1") int direction) {
+                                        @RequestParam(defaultValue = "-1") int direction,
+                                        @RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "5") int size) {
         return reportService.getReports(keyword,
-                GetReportRequest.of(rangeStart, rangeEnd),
+                GetReportRequest.of(status, rangeStart, rangeEnd),
                 GetPageRequest.of(page, size, sortProperties, direction));
     }
 

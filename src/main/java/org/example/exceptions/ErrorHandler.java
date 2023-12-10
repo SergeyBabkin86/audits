@@ -21,6 +21,13 @@ public class ErrorHandler {
         return getErrorResponse(e, "Entity was not found.", ErrorState.NOT_FOUND);
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse defaultHandle(final Exception e) {
+        log.debug("500 {}", e.getMessage(), e);
+        return getErrorResponse(e, "Error occurred.", ErrorState.FORBIDDEN);
+    }
+
     private ErrorResponse getErrorResponse(Exception e, String reason, ErrorState errorState) {
         return ErrorResponse.builder()
                 .message(e.getMessage())
