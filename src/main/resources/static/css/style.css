@@ -1,0 +1,143 @@
+/*---------Modals-----------*/
+
+
+/*---------Containers-----------*/
+body {
+    margin:0;
+    background-color: #ffffff;
+}
+.container {
+    width: 100%;
+    margin-top: 30px;
+    padding: 15px;
+}
+
+/*2. Navigation bars*/
+
+
+/*3. Tables*/
+table.style-index {
+    border-collapse: collapse;
+}
+
+table.style-index, table.style-index th, table.style-index td {
+    padding: 5px 10px;
+    border: 1px solid gray;
+}
+
+table.style-index tr:hover td {
+    background: #fffabe;;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+
+/*---------Forms-----------*/
+
+/*---------Lists-----------*/
+ul.filter-report li {
+    display: inline;
+    align-content: center;
+    border: 1px solid #555;
+}
+/*---------Buttons-----------*/
+a.button {
+    text-align:center;
+    font-size:13px;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 3px 6px;
+    display:block;
+    width:60px;
+    border: 1px solid grey;
+    border-radius: 2px;
+    background: #eaeef1 linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .1));
+    color: rgba(0,0,0,.6);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.2), 0 1px 2px rgba(0,0,0,.2), inset 0 1px 2px rgba(255,255,255,.7);
+}
+
+a.button:hover, a.button.hover {
+    background: #fff;
+}
+a.butt:active, a.butt.active {
+    background: #d0d3d6 linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, 0));
+    box-shadow: inset 0 0 2px rgba(0,0,0,.2), inset 0 2px 5px rgba(0,0,0,.2), 0 1px rgba(255,255,255,.2);
+}
+
+
+
+/*form {*/
+/*    display: block;*/
+/*    align-content: center;*/
+/*}*/
+
+/*.link-button {*/
+/*    border-radius: 4px;*/
+/*    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);*/
+/*    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);*/
+/*    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);*/
+/*    color: #fff;*/
+/*    display: block;*/
+/*    width: 100px;*/
+/*    text-align: center;*/
+/*    font-family: Arial, Helvetica, sans-serif;*/
+/*    font-size: 14px;*/
+/*    padding: 8px 16px;*/
+/*    margin: 20px auto;*/
+/*    text-decoration: none;*/
+/*    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);*/
+/*    -webkit-transition: background-color 0.1s linear;*/
+/*    -moz-transition: background-color 0.1s linear;*/
+/*    -o-transition: background-color 0.1s linear;*/
+/*    transition: background-color 0.1s linear;*/
+/*}*/
+
+/*.link-button{*/
+/*    background-color: rgb( 43, 153, 91 );*/
+/*    border: 1px solid rgb( 33, 126, 74 );*/
+/*}*/
+
+/*.link-button:hover{*/
+/*    background-color: rgb( 75, 183, 141 );*/
+/*}*/
+
+
+/*ul.filter_button li {*/
+/*    display: inline;*/
+/*    align-content: center;*/
+/*    border: 1px solid #555;*/
+/*}*/
+
+.input-box {
+    position: relative;
+    margin-top: 0.25rem;
+    padding: 0.5rem 1rem;
+    height: auto;
+}
+
+/*input {*/
+/*    background: #fff;*/
+/*    padding: 10px;*/
+/*    !* закруглим края у поля ввода *!*/
+/*    width: 200px;*/
+/*}*/
+
+/*label {*/
+/*    position: absolute;*/
+/*    !* смещение относительно родительского элемента 10px вверх от верхнего края и   10px влево *!*/
+/*    top: -10px;*/
+/*    left: 10px;*/
+/*    background: #fff;*/
+/*    padding: 0 5px;*/
+/*}*/
+
+
+/*.form_radio_btn input[type=radio] {*/
+/*    display: none;*/
+/*}*/
+

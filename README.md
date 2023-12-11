@@ -1,0 +1,1 @@
+SQL синтаксис - "Ред База Данных" (https://reddatabase.ru/ru/documentation/)

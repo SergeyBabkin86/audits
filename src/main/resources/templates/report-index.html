@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html
+        lang="ru, eng">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Audit Report Index</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css">-->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link rel="stylesheet" type="text/css" href="/static/css/buttons.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/tables.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/pagination-style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/static/js/actions.js"></script>
+    <script type="text/javascript" src="/static/js/pagination.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item p-1">
+                <button id="create-report" type="button" class="btn btn-outline-success btn-sm" data-toggle="modal"
+                        data-target="#reportEditDialog">
+                    <i class='fa fa-plus-square-o fa-lg'></i>
+                </button>
+            </li>
+            <li class="nav-item p-1">
+                <button id="btn-reload" type="button" class="btn btn-outline-success btn-sm">
+                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                </button>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-flex p-3">
+    <div class="row mb-1">
+        <div class="col">
+            <div class="float-left">
+                <div id="pagination"></div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="float-right">
+                <div class="form-inline">
+                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group btn-group-sm mr-2" role="group" aria-label="First group">
+                            <button type="button" class="btn-gen" data-toggle="modal" data-target="#filterDialog">
+                                <i class="fa fa-filter" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <input id="keyword" type="search" class="form-control rounded" placeholder="Search"
+                                   aria-label="Search"
+                                   aria-describedby="search-addon"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row py-1 px-3">
+        <table id="table-rep">
+            <thead>
+            <tr>
+                <th data-sort="status" data-width="1">Status</th>
+                <th data-sort="number">#</th>
+                <th data-sort="subject">Subject</th>
+                <th data-sort="location">Place</th>
+                <th data-sort="auditedBy">Audited by</th>
+                <th data-sort="leadAuditor">Lead auditor</th>
+                <th data-sort="endDate">End date</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal" id="filterDialog" tabindex="-1" role="dialog"
+     aria-labelledby="filterDialogLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header pt-2 pb-2">
+                <h6 class="modal-title" id="filterDialogLabel"><i class="fa fa-filter" aria-hidden="true"></i></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group input-group-sm mb-2">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="sel-size">On page</label>
+                    </div>
+                    <select class="custom-select" id="sel-size">
+                        <option selected value="5">5</option>
+                        <option value="4">4</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                    </select>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="sel-status">Status</label>
+                    </div>
+                    <select class="custom-select" id="sel-status">
+                        <option value="ALL">All</option>
+                        <option selected value="OPEN">Open</option>
+                        <option value="CLOSED">Closed</option>
+                    </select>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="" data-width="5">Period</span>
+                    </div>
+                    <label class="sr-only" for="date-filter-from">from</label>
+                    <input type="date" class="form-control" id="date-filter-from">
+                    <label class="sr-only" for="date-filter-to">to</label>
+                    <input type="date" class="form-control" id="date-filter-to">
+                </div>
+            </div>
+            <div class="modal-footer pt-2 pb-2">
+                <button id="btn-fltr-apply" type="button" class="btn-gen">Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="reportEditDialog" tabindex="-1" role="dialog"
+     aria-labelledby="reportEditDialogLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportEditDialogLabel">New audit report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button id="save-report-button" type="button" class="btn btn-success btn-sm">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                </button>
+                <button id="edit-report-button" type="button" class="btn btn-success btn-sm">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+                <button id="delete-report" type="button" class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
+
+
+                <form id="myForm">
+                    <div class="form-group">
+                        <div class="form-row">
+                            <label class="col-sm-2 col-form-label">Parameters</label>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="report-schedule-radio"
+                                           id="radio-scheduled"
+                                           value="SCHEDULED">
+                                    <label class="form-check-label" for="radio-scheduled">Scheduled</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="report-schedule-radio"
+                                           id="radio-unscheduled"
+                                           value="UNSCHEDULED">
+                                    <label class="form-check-label" for="radio-unscheduled">Unscheduled</label>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="report-type-radio"
+                                           id="radio-internal"
+                                           value="INTERNAL">
+                                    <label class="form-check-label" for="radio-internal">Internal</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="report-type-radio"
+                                           id="radio-external"
+                                           value="EXTERNAL">
+                                    <label class="form-check-label" for="radio-external">External</label>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="report-form-radio"
+                                           id="radio-onsite"
+                                           value="ONSITE">
+                                    <label class="form-check-label" for="radio-onsite">On-site</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="report-form-radio"
+                                           id="radio-desktop"
+                                           value="DESKTOP">
+                                    <label class="form-check-label" for="radio-desktop">Desktop</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" class="form-control" id="report-id">
+
+                    <div class="form-group row">
+                        <label for="report-organisation" class="col-sm-2 col-form-label">Organisation</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="report-organisation">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="report-department" class="col-sm-2 col-form-label">Department</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="report-department">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="report-location" class="col-sm-2 col-form-label">Location</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="report-location">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="report-manager" class="col-sm-2 col-form-label">Manager</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="report-manager">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="report-scope" class="col-sm-2 col-form-label">Scope</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="report-scope">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="report-subject" class="col-sm-2 col-form-label">Subject</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="report-subject"> </textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="report-criteria" class="col-sm-2 col-form-label">Criteria</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="report-criteria">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Dates</label>
+                        <div class="col-sm-5">
+                            <label class="sr-only" for="report-start-date">from</label>
+                            <input type="date" class="form-control" id="report-start-date">
+                        </div>
+
+                        <div class="col-sm-5">
+                            <label class="sr-only" for="report-end-date">from</label>
+                            <input type="date" class="form-control" id="report-end-date">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="report-audited-by" class="col-sm-2 col-form-label">Audited by</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="report-audited-by">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="report-lead-auditor" class="col-sm-2 col-form-label">Lead auditor</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="report-lead-auditor">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="report-auditor" class="col-sm-2 col-form-label">Auditor</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="report-auditor">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="report-expert" class="col-sm-2 col-form-label">Expert</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="report-expert">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="report-trainee" class="col-sm-2 col-form-label">Trainee</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="report-trainee">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="report-auditee" class="col-sm-2 col-form-label">Auditee</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="report-auditee">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!--                <button id="edit-report-button" type="button" class="btn btn-primary">Edit</button>-->
+                <!--                <button id="save-report-button" type="button" class="btn btn-primary">Save</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
